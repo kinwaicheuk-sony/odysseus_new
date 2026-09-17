@@ -118,6 +118,12 @@ Since everything is being run inside Docker, you need to install the necessary p
 RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
 ```
 
+#### Workspace
+The default workspace for the agent is `/app` inside the Docker container. There is no write permission to `/home` inside the container.
+
+#### Cloning repository
+You can tell the agent to clone any public repo you like.
+
 <details>
   <summary>The following instructions are old and not recommended. You can skip them if you have already set up the auto start.</summary>
 #### Manual start
