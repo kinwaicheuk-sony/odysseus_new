@@ -106,6 +106,8 @@ RUN mkdir -p data logs services/cache/search
 # prefs persistence, mail attachments, etc.
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
+# install unzip for handling zip files
+RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 7000
 

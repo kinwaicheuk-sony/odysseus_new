@@ -108,6 +108,15 @@ sudo systemctl restart ollama
 ollama pull <model-name>
 ```
 
+### Agent Mode
+
+#### Installing packages
+
+Since everything is being run inside Docker, you need to install the necessary packages within the container by specifying them in the Dockerfile. Add the following line to your Dockerfile to install `unzip`:
+
+```dockerfile
+RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
+```
 
 <details>
   <summary>The following instructions are old and not recommended. You can skip them if you have already set up the auto start.</summary>
