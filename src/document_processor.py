@@ -110,14 +110,22 @@ def _process_text_file(path: str) -> str:
 
 
 def _process_pdf(path: str, owner: str | None = None) -> str:
-    """Process PDF file with text extraction (pypdf). Uses VL model for image-heavy pages."""
+    """Extract PDF text with geometric spacing, plus VL for image-heavy pages."""
     try:
         from pypdf import PdfReader
+        from src.pdf_text import extract_pdf_pages, PDF_EXTRACTION_NOTE
         pdf_text = ""
         reader = PdfReader(path)
+        layout_pages = extract_pdf_pages(path)
 
         for page_num, page in enumerate(reader.pages):
-            page_text = (page.extract_text() or "").strip()
+            page_text = (
+                layout_pages[page_num]
+                if layout_pages is not None and page_num < len(layout_pages)
+                else ""
+            )
+            if not page_text:
+                page_text = (page.extract_text() or "").strip()
             if page_text:
                 pdf_text += f"\n\n[Page {page_num + 1} text]:\n{page_text}"
 
@@ -148,7 +156,7 @@ def _process_pdf(path: str, owner: str | None = None) -> str:
         if pdf_text:
             if len(pdf_text) > 15000:
                 pdf_text = pdf_text[:15000] + "\n[PDF content truncated]"
-            return f"\n\n[PDF content]:{pdf_text}"
+            return f"\n\n[PDF content]:\n{PDF_EXTRACTION_NOTE}{pdf_text}"
         else:
             return "\n\n[PDF processed but no readable content found]"
 
