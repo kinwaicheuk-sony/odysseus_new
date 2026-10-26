@@ -62,6 +62,17 @@ Start the UI again (without rebuilding)
 docker compose up -d
 ```
 
+Update the UI with the latest code
+```
+docker compose up -d --build --pull never odysseus
+```
+
+To allow optional packages
+```
+docker compose build --build-arg INSTALL_OPTIONAL=true odysseus
+docker compose up -d --no-deps --pull never odysseus
+```
+
 
 
 ### Ollama
